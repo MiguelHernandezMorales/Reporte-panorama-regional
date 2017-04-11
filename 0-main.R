@@ -201,18 +201,14 @@ for (i in 1:length(todas)){
 # 7 - Ignorado
 
 for (i in 1:length(todas)){
-  todas[[i]]$lvl = ifelse(todas[[i]]$nivel<=2,0, 
-                          ifelse(todas[[i]]$nivel==3,1, 
-                                 ifelse(todas[[i]]$nivel==4 | 
-                                          todas[[i]]$nivel==6,2, 
-                                        ifelse(todas[[i]]$nivel==5 | 
-                                                 todas[[i]]$nivel==14,3, 
-                                               ifelse(todas[[i]]$nivel==7 | 
-                                                        todas[[i]]$nivel==8,4,
-                                                      ifelse(todas[[i]]$nivel==9,5, 
-                                                             ifelse(todas[[i]]$nivel>=10 & 
-                                                                      todas[[i]]$nivel<=12,6, 
-                                                                    ifelse(todas[[i]]$nivel==999,7,NA))))))))
+    todas[[i]] = mutate(todas[[i]], lvl  = ifelse(nivel<=2,0, 
+                      ifelse(nivel==3,1, 
+                      ifelse(nivel==4 | nivel==6,2, 
+                      ifelse(nivel==5 | nivel==14,3, 
+                      ifelse(nivel==7 | nivel==8,4,
+                      ifelse(nivel==9,5, 
+                      ifelse(nivel>=10 & nivel<=12,6, 
+                      ifelse(nivel==999,7,NA))))))))
 }
 #-------------------------------------------------------------------------------
 # 0 - Basica incompleta o sin estudios
@@ -225,35 +221,23 @@ for (i in 1:length(todas)){
 # 7 - Profesional completa 
 # 8 - Postgrado incompleto 
 # 9 - Postgrado completo 
-
 for (i in 1:length(todas)){
-  todas[[i]]$educ = ifelse(todas[[i]]$lvl==0,0, 
-                           ifelse(todas[[i]]$lvl==1 & 
-                                    todas[[i]]$termino_nivel==2,0, 
-                                  ifelse(todas[[i]]$lvl==1 & 
-                                           todas[[i]]$termino_nivel==1,1,
-                                         ifelse(todas[[i]]$lvl==2 & 
-                                                  todas[[i]]$termino_nivel==2,2, 
-                                                ifelse(todas[[i]]$lvl==3 & 
-                                                         todas[[i]]$termino_nivel==2,2, 
-                                                       ifelse(todas[[i]]$lvl==2 & 
-                                                                todas[[i]]$termino_nivel==1,3,
-                                                              ifelse(todas[[i]]$lvl==3 & 
-                                                                       todas[[i]]$termino_nivel==1,3,  
-                                                                     ifelse(todas[[i]]$lvl==4 & 
-                                                                              todas[[i]]$termino_nivel==2,4, 
-                                                                            ifelse(todas[[i]]$lvl==4 & 
-                                                                                     todas[[i]]$termino_nivel==1,5, 
-                                                                                   ifelse(todas[[i]]$lvl==5 & 
-                                                                                            todas[[i]]$termino_nivel==2,6,
-                                                                                          ifelse(todas[[i]]$lvl==6 & 
-                                                                                                   todas[[i]]$termino_nivel==2,8,
-                                                                                                 ifelse(todas[[i]]$lvl==5 & 
-                                                                                                          todas[[i]]$termino_nivel==1,7,
-                                                                                                        ifelse(todas[[i]]$lvl==6 & 
-                                                                                                                 todas[[i]]$termino_nivel==1,9,
-                                                                                                               ifelse(todas[[i]]$lvl==7,99,NA)))))))))))))) 
+  todas[[i]] =mutate(todas[[i]], educ ifelse(lvl==0,0, 
+          ifelse(lvl==1 & termino_nivel==2,0, 
+          ifelse(lvl==1 & termino_nivel==1,1,
+          ifelse(lvl==2 & termino_nivel==2,2, 
+          ifelse(lvl==3 & termino_nivel==2,2, 
+          ifelse(lvl==2 & termino_nivel==1,3,
+          ifelse(lvl==3 & termino_nivel==1,3,  
+          ifelse(lvl==4 & termino_nivel==2,4, 
+          ifelse(lvl==4 & termino_nivel==1,5, 
+          ifelse(lvl==5 & termino_nivel==2,6,
+          ifelse(lvl==6 & termino_nivel==2,8,
+          ifelse(lvl==5 & termino_nivel==1,7,
+          ifelse(lvl==6 & termino_nivel==1,9,
+          ifelse(lvl==7,99,NA))))))))))))))) 
 }
+
 #-------------------------------------------------------------------------------
 # 0 - Basica incompleta o sin estudios 
 # 1 - Basica completa
@@ -263,17 +247,18 @@ for (i in 1:length(todas)){
 # 5 - Postgrado 
 
 for (i in 1:length(todas)){
-  todas[[i]]$educ2 = ifelse(todas[[i]]$educ==0,0, 
-                            ifelse(todas[[i]]$educ==1,1,
-                                   ifelse(todas[[i]]$educ==2,1,
-                                          ifelse(todas[[i]]$educ==3,2,
-                                                 ifelse(todas[[i]]$educ==4,2,
-                                                        ifelse(todas[[i]]$educ==5,3,
-                                                               ifelse(todas[[i]]$educ==6,2,
-                                                                      ifelse(todas[[i]]$educ==7,4,
-                                                                             ifelse(todas[[i]]$educ==8,4,
-                                                                                    ifelse(todas[[i]]$educ==9,5,NA))))))))))   
+  todas[[i]] = mutate(todas[[i]], educ2 = ifelse(educ==0,0, 
+                                          ifelse(educ==1,1,
+                                          ifelse(educ==2,1,
+                                          ifelse(educ==3,2,
+                                          ifelse(educ==4,2,
+                                          ifelse(educ==5,3,
+                                          ifelse(educ==6,2,
+                                          ifelse(educ==7,4,
+                                          ifelse(educ==8,4,
+                                          ifelse(educ==9,5,NA))))))))))   
 }
+
 
 #-------------------------------------------------------------------------------
 # 0 - Basica incompleta o sin estudios 
