@@ -222,7 +222,7 @@ for (i in 1:length(todas)){
 # 8 - Postgrado incompleto 
 # 9 - Postgrado completo 
 for (i in 1:length(todas)){
-  todas[[i]] =mutate(todas[[i]], educ ifelse(lvl==0,0, 
+  todas[[i]] =mutate(todas[[i]], educ = ifelse(lvl==0,0, 
           ifelse(lvl==1 & termino_nivel==2,0, 
           ifelse(lvl==1 & termino_nivel==1,1,
           ifelse(lvl==2 & termino_nivel==2,2, 
