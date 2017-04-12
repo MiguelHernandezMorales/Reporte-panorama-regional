@@ -40,7 +40,7 @@ write.csv(trabajan.nuble.sector., "ocupados_nuble_sector_conmutacion.csv")
 edad.ocupados.nuble.sector=list()
 for (i in 1:length(info)){
   edad.ocupados.nuble.sector[[i]]=svyby(~edad,
-                                        by=~sector3+I(prov_e==84), info[[i]], 
+                                        by=~sector2+I(prov_e==84), info[[i]], 
                                         svymean, multicore = TRUE, 
                                         drop.empty.groups = FALSE, na.rm=TRUE) %>% 
     filter( `I(prov_e == 84)`==TRUE)
@@ -51,7 +51,7 @@ edad.ocupados.nuble.sector. =
 
 freq = list()
 for (i in 1:length(info)){
-  freq[[i]]= xtabs(~sector3+I(prov_e==84), data=info[[i]]$variables) %>% data.frame() %>% 
+  freq[[i]]= xtabs(~sector2+I(prov_e==84), data=info[[i]]$variables) %>% data.frame() %>% 
     filter(I.prov_e....84.==TRUE)
 }
 
@@ -63,7 +63,7 @@ edad.ocupados.nuble.sector.$cv =
 edad.ocupados.nuble.sector.$frecuencia = freq$Freq
 
 edad.ocupados.nuble.sector. = 
-  edad.ocupados.nuble.sector.[, c("sector3", "I(prov_e == 84)", "edad", "se", "cv", "frecuencia")]
+  edad.ocupados.nuble.sector.[, c("sector2", "I(prov_e == 84)", "edad", "se", "cv", "frecuencia")]
 
 write.csv(edad.ocupados.nuble.sector., "edad_ocupados_nuble_sector.csv")
 
