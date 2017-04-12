@@ -57,7 +57,9 @@ tasa.cot.salud.nuble.sector = svyby(~I((cat.ocup=="asalariado sin contrato" |
                                           cat.ocup=="asalariado con contrato definido" | 
                                           cat.ocup=="asalariado con contrato indefinido") & 
                                          b7_4==1 & prov_e==84),
-                                    by=~sector2, denominator=~I(prov_e==84 & cat.ocup==3), 
+                                    by=~sector2, denominator=~I(prov_e==84 & (cat.ocup=="asalariado sin contrato" | 
+                                                                                cat.ocup=="asalariado con contrato definido" | 
+                                                                                cat.ocup=="asalariado con contrato indefinido")), 
                                     info2, svyratio, multicore = TRUE, 
                                     drop.empty.groups = FALSE, na.rm=TRUE)
 
@@ -67,7 +69,7 @@ freq= xtabs(~I((cat.ocup=="asalariado sin contrato" |
                   cat.ocup=="asalariado con contrato indefinido") & b7_4==1 & prov_e==84)+sector2, data=info2$variables)[2,]
 
 tasa.cot.salud.nuble.sector$cv = 
-  tasa.cot.salud.nuble.sector$`se.I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_4 == 1 & prov_e == 84)/I(prov_e == 84 & cat.ocup == 3)`/tasa.cot.salud.nuble.sector$`I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_4 == 1 & prov_e == 84)/I(prov_e == 84 & cat.ocup == 3)`
+  tasa.cot.salud.nuble.sector$`se.I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_4 == 1 & prov_e == 84)/I(prov_e == 84 & (cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\"))`/tasa.cot.salud.nuble.sector$`I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_4 == 1 & prov_e == 84)/I(prov_e == 84 & (cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\"))`
 
 tasa.cot.salud.nuble.sector$frecuencia = freq
 
@@ -82,7 +84,9 @@ for (i in 1:length(info)){
   tasa.promedio.cot.salud.nuble[[i]] = svyratio(~I((cat.ocup=="asalariado sin contrato" | 
                                                       cat.ocup=="asalariado con contrato definido" | 
                                                       cat.ocup=="asalariado con contrato indefinido") & b7_4==1 & prov_e==84), 
-                                                denominator=~I(prov_e==84 & cat.ocup==3),
+                                                denominator=~I(prov_e==84 & (cat.ocup=="asalariado sin contrato" | 
+                                                                               cat.ocup=="asalariado con contrato definido" | 
+                                                                               cat.ocup=="asalariado con contrato indefinido")),
                                                 info[[i]], multicore = TRUE, 
                                                 drop.empty.groups = FALSE, na.rm=TRUE)
 }
@@ -102,7 +106,9 @@ write.csv(tasa.promedio.cot.salud.nuble.., "tasa_promedio_cot_salud_nuble.csv")
 tasa.cot.afp.nuble.sector = svyby(~I((cat.ocup=="asalariado sin contrato" | 
                                         cat.ocup=="asalariado con contrato definido" | 
                                         cat.ocup=="asalariado con contrato indefinido") & b7_3==1 & prov_e==84),
-                                  by=~sector2, denominator=~I(prov_e==84 & cat.ocup==3), 
+                                  by=~sector2, denominator=~I(prov_e==84 & (cat.ocup=="asalariado sin contrato" | 
+                                                                              cat.ocup=="asalariado con contrato definido" | 
+                                                                              cat.ocup=="asalariado con contrato indefinido")), 
                                   info2, svyratio, multicore = TRUE, 
                                   drop.empty.groups = FALSE, na.rm=TRUE)
 
@@ -111,7 +117,7 @@ freq= xtabs(~I((cat.ocup=="asalariado sin contrato" |
                   cat.ocup=="asalariado con contrato indefinido") & b7_3==1 & prov_e==84)+sector2, data=info2$variables)[2,]
 
 tasa.cot.afp.nuble.sector$cv = 
-  tasa.cot.afp.nuble.sector$`se.I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_3 == 1 & prov_e == 84)/I(prov_e == 84 & cat.ocup == 3)`/tasa.cot.afp.nuble.sector$`I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_3 == 1 & prov_e == 84)/I(prov_e == 84 & cat.ocup == 3)`
+  tasa.cot.afp.nuble.sector$`se.I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_3 == 1 & prov_e == 84)/I(prov_e == 84 & (cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\"))`/tasa.cot.afp.nuble.sector$`I((cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\") & b7_3 == 1 & prov_e == 84)/I(prov_e == 84 & (cat.ocup == \"asalariado sin contrato\" | cat.ocup == \"asalariado con contrato definido\" | cat.ocup == \"asalariado con contrato indefinido\"))`
 
 tasa.cot.afp.nuble.sector$frecuencia = freq
 
@@ -126,7 +132,9 @@ for (i in 1:length(info)){
   tasa.promedio.cot.afp.nuble[[i]] = svyratio(~I((cat.ocup=="asalariado sin contrato" | 
                                                     cat.ocup=="asalariado con contrato definido" | 
                                                     cat.ocup=="asalariado con contrato indefinido") & b7_3==1 & prov_e==84), 
-                                              denominator=~I(prov_e==84 & cat.ocup==3),
+                                              denominator=~I(prov_e==84 & (cat.ocup=="asalariado sin contrato" | 
+                                                                             cat.ocup=="asalariado con contrato definido" | 
+                                                                             cat.ocup=="asalariado con contrato indefinido")),
                                               info[[i]], multicore = TRUE, 
                                               drop.empty.groups = FALSE, na.rm=TRUE)
 }
