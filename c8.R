@@ -31,7 +31,7 @@ write.csv(conmutantes.nuble.., "VivenPeroNoTrabajanEnNuble.csv")
 # Trabaja en nuble, pero vive en otra region 
 conmutantes.otra = list()
 for (i in 1:length(info)){
-  conmutantes.otra[[i]] = svytotal(~I(conmutante1==1 & prov_e==84),info[[i]], na.rm=TRUE)
+  conmutantes.otra[[i]] = svytotal(~I(conmutante2==1 & prov_e==84),info[[i]], na.rm=TRUE)
 }
 
 conmutantes.otra. = unlist(lapply(conmutantes.otra, '[[', 2) ) 
