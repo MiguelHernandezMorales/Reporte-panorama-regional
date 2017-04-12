@@ -4,14 +4,15 @@
 ## hombres nacional
 #-------------------------------------------------------------------------------
 # Creacion de la variable: tramos
-for (i in 1:length(todas)){
-  info[[i]]$variables = mutate(info[[i]]$variables, tramos = ifelse(edad>=15 & edad<=19,1,
+for (i in 1:length(info)){
+  info[[i]]$variables = mutate(info[[i]]$variables, tramos = 
+                            ifelse(edad>=15 & edad<=19,1,
                             ifelse(edad>=20 & edad<=24,2,
                             ifelse(edad>=25 & edad<=34,3,
                             ifelse(edad>=35 & edad<=44,4,
                             ifelse(edad>=45 & edad<=54,5,
                             ifelse(edad>=55 & edad<=64,6,
-                            ifelse(edad>65,7,NA)))))))) 
+                            ifelse(edad>=65,7,NA)))))))) 
 }
 #
 for (i in 1:length(info)){

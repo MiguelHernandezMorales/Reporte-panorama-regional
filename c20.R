@@ -7,7 +7,7 @@
 ocupados.nacional.educ = list()
 for (i in 1:length(info)){
   ocupados.nacional.educ[[i]] = svyby(~I(cae_general=="Ocupado"),
-                                      by=~educ, info[[i]], svytotal,
+                                      by=~educ3, info[[i]], svytotal,
                                       multicore = TRUE, drop.empty.groups = FALSE, 
                                       na.rm=TRUE)
 }
@@ -17,7 +17,7 @@ ocupados.nacional.educ. =
 
 freq = list()
 for (i in 1:length(info)){
-  freq[[i]]= xtabs(~I(cae_general=="Ocupado")+educ, data=info[[i]]$variables)
+  freq[[i]]= xtabs(~I(cae_general=="Ocupado")+educ3, data=info[[i]]$variables)
 }
 freq. = do.call(cbind, freq)[2,]
 
@@ -27,7 +27,7 @@ ocupados.nacional.educ.$cv =
 ocupados.nacional.educ.$frecuencia = freq.
 
 ocupados.nacional.educ. = 
-  ocupados.nacional.educ.[, c("educ", "I(cae_general == \"Ocupado\")TRUE" , "se.I(cae_general == \"Ocupado\")TRUE", "cv", "frecuencia")]
+  ocupados.nacional.educ.[, c("educ3", "I(cae_general == \"Ocupado\")TRUE" , "se.I(cae_general == \"Ocupado\")TRUE", "cv", "frecuencia")]
 
 write.csv(ocupados.nacional.educ., "ocupados_nacional_educ.csv")
 
@@ -37,7 +37,7 @@ write.csv(ocupados.nacional.educ., "ocupados_nacional_educ.csv")
 ocupados.nuble.educ = list()
 for (i in 1:length(info)){
   ocupados.nuble.educ[[i]] = svyby(~I(prov_e==84),
-                                   by=~educ, info[[i]], svytotal,
+                                   by=~educ3, info[[i]], svytotal,
                                    multicore = TRUE, drop.empty.groups = FALSE, na.rm=TRUE)
 }
 
@@ -45,7 +45,7 @@ ocupados.nuble.educ. = do.call(rbind, ocupados.nuble.educ)
 
 freq = list()
 for (i in 1:length(info)){
-  freq[[i]]= xtabs(~I(prov_e==84)+educ, data=info[[i]]$variables)
+  freq[[i]]= xtabs(~I(prov_e==84)+educ3, data=info[[i]]$variables)
 }
 freq. = do.call(cbind, freq)[2,]
 
@@ -55,7 +55,7 @@ ocupados.nuble.educ.$cv =
 ocupados.nuble.educ.$frecuencia = freq.
 
 ocupados.nuble.educ. = 
-  ocupados.nuble.educ.[,c("educ", "I(prov_e == 84)TRUE", "se.I(prov_e == 84)TRUE", "cv","frecuencia")]
+  ocupados.nuble.educ.[,c("educ3", "I(prov_e == 84)TRUE", "se.I(prov_e == 84)TRUE", "cv","frecuencia")]
 
 write.csv(ocupados.nuble.educ., "ocupados_nuble_educ.csv")
 
