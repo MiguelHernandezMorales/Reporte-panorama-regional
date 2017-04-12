@@ -1,35 +1,58 @@
 #-------------------------------------------------------------------------------
-# CUADRO 19: Ocupados de nuble por tramo de edad y sexo
+# Cuadro 19: ocupados de nuble por tramo de edad y sexo
 #-------------------------------------------------------------------------------
 ## hombres nacional
-tramos = levels(info[[1]]$variables$tramos)
-tramos.etarios.nacional2 = list()
+#-------------------------------------------------------------------------------
+# Creacion de la variable: tramos
 for (i in 1:length(info)){
-  tramos.etarios.nacional2[[i]] = lapply(tramos, function(x) svyratio(~I(cae_general=="Ocupado" & tramos==x & sexo==1),
-                                                                      denominator=~I(cae_general=="Ocupado" & sexo==1), 
-                                                                      na.rm=TRUE, info[[i]]))
+  info[[i]]$variables = mutate(info[[i]]$variables, tramos = 
+                            ifelse(edad>=15 & edad<=19,1,
+                            ifelse(edad>=20 & edad<=24,2,
+                            ifelse(edad>=25 & edad<=34,3,
+                            ifelse(edad>=35 & edad<=44,4,
+                            ifelse(edad>=45 & edad<=54,5,
+                            ifelse(edad>=55 & edad<=64,6,
+                            ifelse(edad>=65,7,NA)))))))) 
+}
+#
+for (i in 1:length(info)){
+  info[[i]]$variables$tramos = factor(info[[i]]$variables$tramos, 
+                       levels=c(1,2,3,4,5,6,7),
+                       labels=c("15-19", "20-24", "25-34", 
+                                "35-44", "45-54", "55-64", "65 o mas"))
+}
+
+
+tramos = levels(info[[1]]$variables$tramos)
+
+tramos_etarios_nacional2 = list()
+for (i in 1:length(info)){
+  tramos_etarios_nacional2[[i]] = lapply(tramos, function(x) 
+    svyratio(~I(cae_general=="Ocupado" & tramos==x & sexo==1),
+                                  denominator=~I(cae_general=="Ocupado" & sexo==1), 
+                                  na.rm=TRUE, info[[i]]))
 }
 
 #
-tramos.etarios.nacional2.=list()
+tramos_etarios_nacional2_=list()
 for (i in 1:length(info)){
-  tramos.etarios.nacional2.[[i]] = unlist(lapply(tramos.etarios.nacional2[[i]], '[[', 1)) 
+  tramos_etarios_nacional2_[[i]] = unlist(lapply(tramos_etarios_nacional2[[i]], '[[', 1)) 
 }
 
-tramos.etarios.nacional. = do.call(rbind, tramos.etarios.nacional2.)
-rownames(tramos.etarios.nacional.) = c("EFM","AMJ","JAS","OND")
-colnames(tramos.etarios.nacional.) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
+tramos_etarios_nacional. = do.call(rbind, tramos_etarios_nacional2_)
+rownames(tramos_etarios_nacional.) = c("EFM","AMJ","JAS","OND")
+colnames(tramos_etarios_nacional.) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
 
-var.tramos.etarios.nacional2.=list()
+var.tramos_etarios_nacional2_=list()
 for (i in 1:length(info)){
-  var.tramos.etarios.nacional2.[[i]] = unlist(lapply(tramos.etarios.nacional2[[i]], '[[', 2)) 
+  var.tramos_etarios_nacional2_[[i]] = unlist(lapply(tramos_etarios_nacional2[[i]], '[[', 2)) 
 }
 
-var.tramos.etarios.nacional2. = do.call(rbind, var.tramos.etarios.nacional2.)
-rownames(var.tramos.etarios.nacional2.) = c("EFM","AMJ","JAS","OND")
-colnames(var.tramos.etarios.nacional2.) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
+var.tramos_etarios_nacional2_ = do.call(rbind, var.tramos_etarios_nacional2_)
+rownames(var.tramos_etarios_nacional2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.tramos_etarios_nacional2_) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
 
-write.csv(tramos.etarios.nacional., "tramos_etarios_nacional_sexo_hombre.csv")
+write.csv(tramos_etarios_nacional., "tramos_etarios_nacional_sexo_hombre.csv")
 
 # mujeres nacional
 tramos = levels(info[[1]]$variables$tramos)
@@ -63,34 +86,34 @@ write.csv(tramos.etarios.mujer.nacional., "tramos_etarios_nacional_sexo_mujer.cs
 
 ## Occupados Nacional por tramos
 tramos = levels(info[[1]]$variables$tramos)
-tramos.etarios.nacional = list()
+tramos_etarios_nacional = list()
 for (i in 1:length(info)){
-  tramos.etarios.nacional[[i]] = 
+  tramos_etarios_nacional[[i]] = 
     lapply(tramos, function(x) svyratio(~I(cae_general=="Ocupado" & tramos==x),
                                         denominator=~I(cae_general=="Ocupado"), 
                                         na.rm=TRUE, info[[i]]))
 }
 
 #
-tramos.etarios.nacional.=list()
+tramos_etarios_nacional.=list()
 for (i in 1:length(info)){
-  tramos.etarios.nacional.[[i]] = unlist(lapply(tramos.etarios.nacional[[i]], '[[', 1)) 
+  tramos_etarios_nacional.[[i]] = unlist(lapply(tramos_etarios_nacional[[i]], '[[', 1)) 
 }
 
-tramos.etarios.nacional2 = do.call(rbind, tramos.etarios.nacional.)
-rownames(tramos.etarios.nacional2) = c("EFM","AMJ","JAS","OND")
-colnames(tramos.etarios.nacional2) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
+tramos_etarios_nacional2 = do.call(rbind, tramos_etarios_nacional.)
+rownames(tramos_etarios_nacional2) = c("EFM","AMJ","JAS","OND")
+colnames(tramos_etarios_nacional2) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
 
-var.tramos.etarios.nacional2=list()
+var.tramos_etarios_nacional2=list()
 for (i in 1:length(info)){
-  var.tramos.etarios.nacional2[[i]] = unlist(lapply(tramos.etarios.nacional[[i]], '[[', 2)) 
+  var.tramos_etarios_nacional2[[i]] = unlist(lapply(tramos_etarios_nacional[[i]], '[[', 2)) 
 }
 
-var.tramos.etarios.nacional2. = do.call(rbind, var.tramos.etarios.nacional2)
-rownames(var.tramos.etarios.nacional2.) = c("EFM","AMJ","JAS","OND")
-colnames(var.tramos.etarios.nacional2.) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
+var.tramos_etarios_nacional2_ = do.call(rbind, var.tramos_etarios_nacional2)
+rownames(var.tramos_etarios_nacional2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.tramos_etarios_nacional2_) = c("15-19", "20-24", "25-34", "35-44", "45-54", "55-64", "65 y mas")
 
-write.csv(tramos.etarios.nacional2, "tramos_etarios_nacional.csv")
+write.csv(tramos_etarios_nacional2, "tramos_etarios_nacional.csv")
 
 # Hombre en nuble
 tramos = levels(info[[1]]$variables$tramos)
