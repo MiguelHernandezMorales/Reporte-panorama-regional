@@ -9,11 +9,14 @@ rm(list=ls())
 #-------------------------------------------------------------------------------
 # SE FIJA EL DIRECTORIO DE TRABAJO
 #-------------------------------------------------------------------------------
-setwd("C:\\Users\\Miguelo\\Documents\\NENE\\")
+
+#setwd("C:\\Users\\Miguelo\\Documents\\NENE\\")
+setwd("/home/hector/GoogleDrivePersonal/Observatorio Regional/Bases NENE/NENE/")
+
 #-------------------------------------------------------------------------------
 t <- proc.time() # Inicia el cronometro
 #
-x=seq(61,70,3) # c(seq(1,10,3),seq(61,70,3))
+x=seq(73,82,3) # c(seq(1,10,3),seq(61,70,3))
 nene = paste0("nene_",x,".csv")
 # ENEs
 # 2010:01-11: Central: 01,04,07,10 
@@ -208,7 +211,7 @@ for (i in 1:length(todas)){
                       ifelse(nivel==7 | nivel==8,4,
                       ifelse(nivel==9,5, 
                       ifelse(nivel>=10 & nivel<=12,6, 
-                      ifelse(nivel==999,7,NA))))))))
+                      ifelse(nivel==999,7,NA)))))))))
 }
 #-------------------------------------------------------------------------------
 # 0 - Basica incompleta o sin estudios
