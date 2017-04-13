@@ -1,3 +1,29 @@
+# CREACION DE LA VARIABLE: CATEGORIA OCUPACIONAL 
+# (1:Empleador; 2:Cuenta Propia; 3:Trabajador dependiente)
+for (i in 1:length(info)){
+  info[[i]]$variables$cat.ocup = recode(info[[i]]$variables$categoria_ocupacion, `1`= 1, 
+                                        `2`= 2, `3` =3, `4`=3, `5`=3, `6`=3,
+                                        `7`=4, .default = 0, .missing = 99)
+}
+
+for (i in 1:length(info)){
+  info[[i]]$variables = mutate(info[[i]]$variables, cat.ocup = ifelse(cat.ocup==3 & b8==2,3,
+                                                    ifelse(cat.ocup==3 & b8==1 & b9==1,4, 
+                                                    ifelse(cat.ocup==3 & b8==1 & b9==2,5, 
+                                                    ifelse(cat.ocup==1,1, 
+                                                    ifelse(cat.ocup==2,2, 
+                                                    ifelse(cat.ocup==4,6,NA)))))))
+}
+
+for (i in 1:length(info)){
+  info[[i]]$variables$cat.ocup = factor(info[[i]]$variables$cat.ocup, 
+                                        levels=c(1,2,3,4,5,6),
+                                        labels=c("empleador","cuenta propia","asalariado sin contrato", 
+                                                 "asalariado con contrato definido",
+                                                 "asalariado con contrato indefinido",
+                                                 "no remunerado"))
+}
+
 #-------------------------------------------------------------------------------
 ### CUADRO 28: Indicadores  de seguridad social de trabajadores dependientes de Ñuble, 2016. 
 #-------------------------------------------------------------------------------
