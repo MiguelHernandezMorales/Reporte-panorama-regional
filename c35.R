@@ -9,7 +9,7 @@
 ocupados.nacional.educ.sexo = list()
 for (i in 1:length(info)){
   ocupados.nacional.educ.sexo[[i]] = svyby(~I(cae_general=="Ocupado"),
-                                           by=~educ2+sexo, info[[i]], svytotal,
+                                           by=~educ3+sexo, info[[i]], svytotal,
                                            multicore = TRUE, 
                                            drop.empty.groups = FALSE, na.rm=TRUE)
 }
@@ -19,7 +19,7 @@ ocupados.nacional.educ.sexo. =
 
 freq = list()
 for (i in 1:length(info)){
-  freq[[i]]= xtabs(~I(cae_general=="Ocupado")+educ2+sexo, data=info[[i]]$variables)  %>% data.frame() %>% 
+  freq[[i]]= xtabs(~I(cae_general=="Ocupado")+educ3+sexo, data=info[[i]]$variables)  %>% data.frame() %>% 
     filter(`I.cae_general.....Ocupado..`==TRUE)
   
 }
@@ -31,8 +31,7 @@ ocupados.nacional.educ.sexo.$cv =
 ocupados.nacional.educ.sexo.$frecuencia = freq.$Freq
 
 ocupados.nacional.educ.sexo. = 
-  ocupados.nacional.educ.sexo.[,c("educ2","sexo", "I(cae_general == \"Ocupado\")TRUE", "I(cae_general == \"Ocupado\")TRUE", "cv", "frecuencia")]
-
+  ocupados.nacional.educ.sexo.[,c("educ3","sexo", "I(cae_general == \"Ocupado\")TRUE", "I(cae_general == \"Ocupado\")TRUE", "cv", "frecuencia")]
 
 write.csv(ocupados.nacional.educ.sexo., "ocupados_nacional_educ_sexo.csv")
 
@@ -40,7 +39,7 @@ write.csv(ocupados.nacional.educ.sexo., "ocupados_nacional_educ_sexo.csv")
 ocupados.nuble.educ.sexo = list()
 for (i in 1:length(info)){
   ocupados.nuble.educ.sexo[[i]] = svyby(~I(prov_e==84),
-                                        by=~educ2+sexo, info[[i]], svytotal,
+                                        by=~educ3+sexo, info[[i]], svytotal,
                                         multicore = TRUE, 
                                         drop.empty.groups = FALSE, na.rm=TRUE)
 }
@@ -50,7 +49,7 @@ ocupados.nuble.educ.sexo. =
 
 freq = list()
 for (i in 1:length(info)){
-  freq[[i]]= xtabs(~I(prov_e==84)+educ2+sexo, data=info[[i]]$variables) %>% data.frame() %>% 
+  freq[[i]]= xtabs(~I(prov_e==84)+educ3+sexo, data=info[[i]]$variables) %>% data.frame() %>% 
     filter(`I.prov_e....84.`==TRUE) 
   
 }
@@ -62,7 +61,7 @@ ocupados.nuble.educ.sexo.$cv =
 ocupados.nuble.educ.sexo.$frecuencia = freq.$Freq
 
 ocupados.nuble.educ.sexo. = 
-  ocupados.nuble.educ.sexo.[,c("educ2", "sexo","I(prov_e == 84)TRUE","se.I(prov_e == 84)TRUE", "cv", "frecuencia")]
+  ocupados.nuble.educ.sexo.[,c("educ3", "sexo","I(prov_e == 84)TRUE","se.I(prov_e == 84)TRUE", "cv", "frecuencia")]
 
 write.csv(ocupados.nuble.educ.sexo., "ocupados_nuble_educ_sexo.csv")
 
