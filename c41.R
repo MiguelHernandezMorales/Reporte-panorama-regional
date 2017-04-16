@@ -15,6 +15,17 @@ info2$variables = mutate(info2$variables, tramos.jovenes =
                             ifelse(edad>=25 & edad<=29,3,NA))))
 
 #-------------------------------------------------------------------------------
+# CREACION DE LA VARIABLE: POBLACION EN EDAD DE TRABAJAR
+for (i in 1:length(todas)){
+  info[[i]]$variables = mutate(info[[i]]$variables, pet =
+                                 ifelse(edad>=15,1, 0)) 
+}
+
+# CREACION DE LA VARIABLE: POBLACION EN EDAD DE TRABAJAR
+info2$variables = mutate(info2$variables, pet =
+                           ifelse(edad>=15,1, 0))
+
+#-------------------------------------------------------------------------------
 ### CUADRO 41: Tasa de participacion, ocupación y desempleo de los jovenes de Nuble, segun edad, 2016.
 #-------------------------------------------------------------------------------
 #################################################################
