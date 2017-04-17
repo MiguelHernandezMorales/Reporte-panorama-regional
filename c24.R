@@ -1,156 +1,197 @@
 #-------------------------------------------------------------------------------
-### CUADRO 24: Distribucion de la jornada laboral en nuble
+### CUADRO 24: Distribucion de la jornada laboral nacional
 #-------------------------------------------------------------------------------
-####################################################################
-# tasa de mujeres ocupadas por jornada a nivel nacional
-####################################################################
-#
-tasa.mujeres.jornada.nacional = svyby(~I(cae_general=="Ocupado" & sexo==2),
-                                      by=~c1, denominator=~I(cae_general=="Ocupado"), 
-                                      info2, svyratio, multicore = TRUE, 
-                                      drop.empty.groups = FALSE, na.rm=TRUE)
-
-freq= xtabs(~I(cae_general=="Ocupado" & sexo==2)+c1, data=info2$variables)[2,]
-
-tasa.mujeres.jornada.nacional$cv = 
-  tasa.mujeres.jornada.nacional$`se.I(cae_general == \"Ocupado\" & sexo == 2)/I(cae_general == \"Ocupado\")`/tasa.mujeres.jornada.nacional$`I(cae_general == \"Ocupado\" & sexo == 2)/I(cae_general == \"Ocupado\")`
-
-tasa.mujeres.jornada.nacional$frecuencia = freq
-
-names(tasa.mujeres.jornada.nacional) = 
-  c("Jornada", "tasa.mujeres.jornada.nacional", "error estandar","cv","frecuencia")
-
-write.csv(tasa.mujeres.jornada.nacional, "tasa_mujeres_jornada_nacional.csv")
-
-#
-tasa.promedio.mujeres.jornada.nacional = list()
-for (i in 1:length(info)){
-  tasa.promedio.mujeres.jornada.nacional[[i]] = svyratio(~I(cae_general=="Ocupado" & sexo==2), 
-                                                         denominator=~I(cae_general=="Ocupado"), 
-                                                         info[[i]], multicore = TRUE, 
-                                                         drop.empty.groups = FALSE, na.rm=TRUE)
-}
-
-tasa.promedio.mujeres.jornada.nacional. = 
-  do.call(rbind, tasa.promedio.mujeres.jornada.nacional)
-
-names(tasa.promedio.mujeres.jornada.nacional.) = 
-  c("tasa.promedio.mujeres.jornada.nacional", "error estandar")
-
-write.csv(tasa.promedio.mujeres.jornada.nacional., "tasa_promedio_mujeres_jornada_nacional.csv")
-
 ####################################################################
 # tasa de hombres ocupados por jornada a nivel nacional
 ####################################################################
 #
-tasa.hombres.jornada.nacional = svyby(~I(cae_general=="Ocupado"  & sexo==1),
-                                      by=~c1, denominator=~I(cae_general=="Ocupado"), 
-                                      info2, svyratio, multicore = TRUE, 
-                                      drop.empty.groups = FALSE, na.rm=TRUE)
-
-freq= xtabs(~I(cae_general=="Ocupado"  & sexo==1)+c1, data=info2$variables)[2,]
-
-tasa.hombres.jornada.nacional$cv = 
-  tasa.hombres.jornada.nacional$`se.I(cae_general == \"Ocupado\" & sexo == 1)/I(cae_general == \"Ocupado\")`/tasa.hombres.jornada.nacional$`I(cae_general == \"Ocupado\" & sexo == 1)/I(cae_general == \"Ocupado\")`
-
-tasa.hombres.jornada.nacional$frecuencia = freq
-
-names(tasa.hombres.jornada.nacional) = 
-  c("Jornada", "tasa.hombres.jornada.nacional", "error estandar","cv","frecuencia")
-
-write.csv(tasa.hombres.jornada.nacional, "tasa_hombres_jornada_nacional.csv")
-
-#
-tasa.promedio.hombres.jornada.nacional = list()
+jornada= names(table(info[[1]]$variables$c1))
+jornada_sexo_nacional_hombre2 = list()
 for (i in 1:length(info)){
-  tasa.promedio.hombres.jornada.nacional[[i]] = svyratio(~I(cae_general=="Ocupado" & sexo==1), 
-                                                         denominator=~I(cae_general=="Ocupado"), 
-                                                         info[[i]], multicore = TRUE, 
-                                                         drop.empty.groups = FALSE, na.rm=TRUE)
+  jornada_sexo_nacional_hombre2[[i]] = lapply(jornada, function(x) 
+    svyratio(~I(cae_general=="Ocupado" & c1==x & sexo==1),
+             denominator=~I(cae_general=="Ocupado" & sexo==1), 
+             na.rm=TRUE, info[[i]]))
 }
 
-tasa.promedio.hombres.jornada.nacional. = 
-  do.call(rbind, tasa.promedio.hombres.jornada.nacional)
-
-names(tasa.promedio.hombres.jornada.nacional.) = 
-  c("tasa.promedio.hombres.jornada.nacional", "error estandar")
-
-write.csv(tasa.promedio.hombres.jornada.nacional., "tasa_promedio_hombres_jornada_nacional.csv")
-
-####################################################################
-# tasa de mujeres ocupadas por jornada a nivel de nuble
-####################################################################
 #
-tasa.mujeres.jornada.nuble = svyby(~I(prov_e==84 & sexo==2),
-                                   by=~c1, denominator=~I(prov_e==84), 
-                                   info2, svyratio, multicore = TRUE, 
-                                   drop.empty.groups = FALSE, na.rm=TRUE)
-
-freq= xtabs(~I(prov_e==84 & sexo==2)+c1, data=info2$variables)[2,]
-
-tasa.mujeres.jornada.nuble$cv = 
-  tasa.mujeres.jornada.nuble$`se.I(prov_e == 84 & sexo == 2)/I(prov_e == 84)`/tasa.mujeres.jornada.nuble$`I(prov_e == 84 & sexo == 2)/I(prov_e == 84)`
-
-tasa.mujeres.jornada.nuble$frecuencia = freq
-
-names(tasa.mujeres.jornada.nuble) = 
-  c("Jornada", "tasa.mujeres.jornada.nuble", "error estandar","cv","frecuencia")
-
-write.csv(tasa.mujeres.jornada.nuble, "tasa_mujeres_jornada_nuble.csv")
-
-#
-tasa.promedio.mujeres.jornada.nuble = list()
+jornada_sexo_nacional_hombre2_=list()
 for (i in 1:length(info)){
-  tasa.promedio.mujeres.jornada.nuble[[i]] = svyratio(~I(prov_e==84 & sexo==2), 
-                                                      denominator=~I(prov_e==84), 
-                                                      info[[i]], multicore = TRUE, 
-                                                      drop.empty.groups = FALSE, na.rm=TRUE)
+  jornada_sexo_nacional_hombre2_[[i]] = unlist(lapply(jornada_sexo_nacional_hombre2[[i]], '[[', 1)) 
 }
 
-tasa.promedio.mujeres.jornada.nuble. = 
-  do.call(rbind, tasa.promedio.mujeres.jornada.nuble)
+jornada_sexo_nacional_hombre2. = do.call(rbind, jornada_sexo_nacional_hombre2_)
+rownames(jornada_sexo_nacional_hombre2.) = c("EFM","AMJ","JAS","OND")
+colnames(jornada_sexo_nacional_hombre2.) = c("Jornada completa", "jornada parcial")
 
-names(tasa.promedio.mujeres.jornada.nuble.) = 
-  c("tasa.promedio.mujeres.jornada.nuble", "error estandar")
+var.jornada_sexo_nacional_hombre2_=list()
+for (i in 1:length(info)){
+  var.jornada_sexo_nacional_hombre2_[[i]] = unlist(lapply(jornada_sexo_nacional_hombre2[[i]], '[[', 2)) 
+}
 
-write.csv(tasa.promedio.mujeres.jornada.nuble., "tasa_promedio_mujeres_jornada_nuble.csv")
+var.jornada_sexo_nacional_hombre2_ = do.call(rbind, var.jornada_sexo_nacional_hombre2_)
+rownames(var.jornada_sexo_nacional_hombre2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.jornada_sexo_nacional_hombre2_) = c("Jornada completa", "jornada parcial")
+
+write.csv(jornada_sexo_nacional_hombre2., "jornada_sexo_nacional_hombre.csv")
+
+# mujeres nacional
+#
+jornada_sexo_nacional_mujer2 = list()
+for (i in 1:length(info)){
+  jornada_sexo_nacional_mujer2[[i]] = lapply(jornada, function(x) 
+    svyratio(~I(cae_general=="Ocupado" & c1==x & sexo==2),
+             denominator=~I(cae_general=="Ocupado" & sexo==2), 
+             na.rm=TRUE, info[[i]]))
+}
+
+#
+jornada_sexo_nacional_mujer2_=list()
+for (i in 1:length(info)){
+  jornada_sexo_nacional_mujer2_[[i]] = unlist(lapply(jornada_sexo_nacional_mujer2[[i]], '[[', 1)) 
+}
+
+jornada_sexo_nacional_mujer2. = do.call(rbind, jornada_sexo_nacional_mujer2_)
+rownames(jornada_sexo_nacional_mujer2.) = c("EFM","AMJ","JAS","OND")
+colnames(jornada_sexo_nacional_mujer2.) = c("Jornada completa", "jornada parcial")
+
+var.jornada_sexo_nacional_mujer2_=list()
+for (i in 1:length(info)){
+  var.jornada_sexo_nacional_mujer2_[[i]] = unlist(lapply(jornada_sexo_nacional_mujer2[[i]], '[[', 2)) 
+}
+
+var.jornada_sexo_nacional_mujer2_ = do.call(rbind, var.jornada_sexo_nacional_mujer2_)
+rownames(var.jornada_sexo_nacional_mujer2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.jornada_sexo_nacional_mujer2_) = c("Jornada completa", "jornada parcial")
+
+write.csv(jornada_sexo_nacional_mujer2., "jornada_sexo_nacional_mujer.csv")
+
+
+## Ocupados Nacional por jornada y sexo
+#
+jornada_sexo_nacional2 = list()
+for (i in 1:length(info)){
+  jornada_sexo_nacional2[[i]] = lapply(jornada, function(x) 
+    svyratio(~I(cae_general=="Ocupado" & c1==x),
+             denominator=~I(cae_general=="Ocupado"), 
+             na.rm=TRUE, info[[i]]))
+}
+
+#
+jornada_sexo_nacional2_=list()
+for (i in 1:length(info)){
+  jornada_sexo_nacional2_[[i]] = unlist(lapply(jornada_sexo_nacional2[[i]], '[[', 1)) 
+}
+
+jornada_sexo_nacional2. = do.call(rbind, jornada_sexo_nacional2_)
+rownames(jornada_sexo_nacional2.) = c("EFM","AMJ","JAS","OND")
+colnames(jornada_sexo_nacional2.) = c("Jornada completa", "jornada parcial")
+
+var.jornada_sexo_nacional2_=list()
+for (i in 1:length(info)){
+  var.jornada_sexo_nacional2_[[i]] = unlist(lapply(jornada_sexo_nacional2[[i]], '[[', 2)) 
+}
+
+var.jornada_sexo_nacional2_ = do.call(rbind, var.jornada_sexo_nacional2_)
+rownames(var.jornada_sexo_nacional2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.jornada_sexo_nacional2_) = c("Jornada completa", "jornada parcial")
+
+write.csv(jornada_sexo_nacional2., "jornada_sexo_nacional.csv")
 
 ####################################################################
 # tasa de hombres ocupados por jornada a nivel de nuble
 ####################################################################
 #
-tasa.hombres.jornada.nuble = svyby(~I(prov_e==84 & sexo==1),
-                                   by=~c1, denominator=~(prov_e==84), 
-                                   info2, svyratio, multicore = TRUE, 
-                                   drop.empty.groups = FALSE, na.rm=TRUE)
-
-freq= xtabs(~I(prov_e==84 & sexo==1)+c1, data=info2$variables)[2,]
-
-tasa.hombres.jornada.nuble$cv = 
-  tasa.hombres.jornada.nuble$`se.I(prov_e == 84 & sexo == 1)/prov_e == 84`/tasa.hombres.jornada.nuble$`I(prov_e == 84 & sexo == 1)/prov_e == 84`
-
-tasa.hombres.jornada.nuble$frecuencia = freq
-
-names(tasa.hombres.jornada.nuble) = 
-  c("Jornada", "tasa.hombres.jornada.nuble", "error estandar","cv","frecuencia")
-
-write.csv(tasa.hombres.jornada.nuble, "tasa_hombres_jornada_nuble.csv")
-
-#
-tasa.promedio.hombres.jornada.nuble = list()
+jornada_sexo_nuble_hombre2 = list()
 for (i in 1:length(info)){
-  tasa.promedio.hombres.jornada.nuble[[i]] = svyratio(~I(prov_e==84 & sexo==1), 
-                                                      denominator=~I(prov_e==84), 
-                                                      info[[i]], multicore = TRUE, 
-                                                      drop.empty.groups = FALSE, na.rm=TRUE)
+  jornada_sexo_nuble_hombre2[[i]] = lapply(jornada, function(x) 
+    svyratio(~I(cae_general=="Ocupado" & c1==x & sexo==1 & prov_e==84),
+             denominator=~I(cae_general=="Ocupado" & sexo==1 & prov_e==84), 
+             na.rm=TRUE, info[[i]]))
 }
 
-tasa.promedio.hombres.jornada.nuble. = 
-  do.call(rbind, tasa.promedio.hombres.jornada.nuble)
+#
+jornada_sexo_nuble_hombre2_=list()
+for (i in 1:length(info)){
+  jornada_sexo_nuble_hombre2_[[i]] = unlist(lapply(jornada_sexo_nuble_hombre2[[i]], '[[', 1)) 
+}
 
-names(tasa.promedio.hombres.jornada.nuble.) = 
-  c("tasa.promedio.hombres.jornada.nuble", "error estandar")
+jornada_sexo_nuble_hombre2. = do.call(rbind, jornada_sexo_nuble_hombre2_)
+rownames(jornada_sexo_nuble_hombre2.) = c("EFM","AMJ","JAS","OND")
+colnames(jornada_sexo_nuble_hombre2.) = c("Jornada completa", "jornada parcial")
 
-write.csv(tasa.promedio.hombres.jornada.nuble., "tasa_promedio_hombres_jornada_nuble.csv")
+var.jornada_sexo_nuble_hombre2_=list()
+for (i in 1:length(info)){
+  var.jornada_sexo_nuble_hombre2_[[i]] = unlist(lapply(jornada_sexo_nuble_hombre2[[i]], '[[', 2)) 
+}
+
+var.jornada_sexo_nuble_hombre2_ = do.call(rbind, var.jornada_sexo_nuble_hombre2_)
+rownames(var.jornada_sexo_nuble_hombre2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.jornada_sexo_nuble_hombre2_) = c("Jornada completa", "jornada parcial")
+
+write.csv(jornada_sexo_nuble_hombre2., "jornada_sexo_nuble_hombre.csv")
+
+# mujeres nuble
+#
+jornada_sexo_nuble_mujer2 = list()
+for (i in 1:length(info)){
+  jornada_sexo_nuble_mujer2[[i]] = lapply(jornada, function(x) 
+    svyratio(~I(cae_general=="Ocupado" & c1==x & sexo==2 & prov_e==84),
+             denominator=~I(cae_general=="Ocupado" & sexo==2 & prov_e==84), 
+             na.rm=TRUE, info[[i]]))
+}
+
+#
+jornada_sexo_nuble_mujer2_=list()
+for (i in 1:length(info)){
+  jornada_sexo_nuble_mujer2_[[i]] = unlist(lapply(jornada_sexo_nuble_mujer2[[i]], '[[', 1)) 
+}
+
+jornada_sexo_nuble_mujer2. = do.call(rbind, jornada_sexo_nuble_mujer2_)
+rownames(jornada_sexo_nuble_mujer2.) = c("EFM","AMJ","JAS","OND")
+colnames(jornada_sexo_nuble_mujer2.) = c("Jornada completa", "jornada parcial")
+
+var.jornada_sexo_nuble_mujer2_=list()
+for (i in 1:length(info)){
+  var.jornada_sexo_nuble_mujer2_[[i]] = unlist(lapply(jornada_sexo_nuble_mujer2[[i]], '[[', 2)) 
+}
+
+var.jornada_sexo_nuble_mujer2_ = do.call(rbind, var.jornada_sexo_nuble_mujer2_)
+rownames(var.jornada_sexo_nuble_mujer2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.jornada_sexo_nuble_mujer2_) = c("Jornada completa", "jornada parcial")
+
+write.csv(jornada_sexo_nuble_mujer2., "jornada_sexo_nuble_mujer.csv")
+
+
+## Ocupados Nacional por jornada y sexo
+#
+jornada_sexo_nuble2 = list()
+for (i in 1:length(info)){
+  jornada_sexo_nuble2[[i]] = lapply(jornada, function(x) 
+    svyratio(~I(cae_general=="Ocupado" & c1==x & prov_e==84),
+             denominator=~I(cae_general=="Ocupado"& prov_e==84), 
+             na.rm=TRUE, info[[i]]))
+}
+
+#
+jornada_sexo_nuble2_=list()
+for (i in 1:length(info)){
+  jornada_sexo_nuble2_[[i]] = unlist(lapply(jornada_sexo_nuble2[[i]], '[[', 1)) 
+}
+
+jornada_sexo_nuble2. = do.call(rbind, jornada_sexo_nuble2_)
+rownames(jornada_sexo_nuble2.) = c("EFM","AMJ","JAS","OND")
+colnames(jornada_sexo_nuble2.) = c("Jornada completa", "jornada parcial")
+
+var.jornada_sexo_nuble2_=list()
+for (i in 1:length(info)){
+  var.jornada_sexo_nuble2_[[i]] = unlist(lapply(jornada_sexo_nuble2[[i]], '[[', 2)) 
+}
+
+var.jornada_sexo_nuble2_ = do.call(rbind, var.jornada_sexo_nuble2_)
+rownames(var.jornada_sexo_nuble2_) = c("EFM","AMJ","JAS","OND")
+colnames(var.jornada_sexo_nuble2_) = c("Jornada completa", "jornada parcial")
+
+write.csv(jornada_sexo_nuble2., "jornada_sexo_nuble.csv")
 
 ### FIN CUADRO 24
