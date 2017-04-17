@@ -1,30 +1,30 @@
+# Creacion de la variable: tramos
+for (i in 1:length(info)){
+  info[[i]]$variables = mutate(info[[i]]$variables, tramos = 
+                                  ifelse(edad>=15 & edad<=19,1,
+                                  ifelse(edad>=20 & edad<=24,2,
+                                  ifelse(edad>=25 & edad<=34,3,
+                                  ifelse(edad>=35 & edad<=44,4,
+                                  ifelse(edad>=45 & edad<=54,5,
+                                  ifelse(edad>=55 & edad<=64,6,
+                                  ifelse(edad>=65,7,NA)))))))) 
+}
+#
+for (i in 1:length(info)){
+  info[[i]]$variables$tramos = factor(info[[i]]$variables$tramos, 
+                                      levels=c(1,2,3,4,5,6,7),
+                                      labels=c("15-19", "20-24", "25-34", 
+                                               "35-44", "45-54", "55-64", "65 o mas"))
+}
+
+tramos = levels(info[[1]]$variables$tramos)
+
 #-------------------------------------------------------------------------------
 # Cuadro 19: ocupados de nuble por tramo de edad y sexo
 #-------------------------------------------------------------------------------
 ## hombres nacional
 #-------------------------------------------------------------------------------
-# Creacion de la variable: tramos
-for (i in 1:length(info)){
-  info[[i]]$variables = mutate(info[[i]]$variables, tramos = 
-                            ifelse(edad>=15 & edad<=19,1,
-                            ifelse(edad>=20 & edad<=24,2,
-                            ifelse(edad>=25 & edad<=34,3,
-                            ifelse(edad>=35 & edad<=44,4,
-                            ifelse(edad>=45 & edad<=54,5,
-                            ifelse(edad>=55 & edad<=64,6,
-                            ifelse(edad>=65,7,NA)))))))) 
-}
 #
-for (i in 1:length(info)){
-  info[[i]]$variables$tramos = factor(info[[i]]$variables$tramos, 
-                       levels=c(1,2,3,4,5,6,7),
-                       labels=c("15-19", "20-24", "25-34", 
-                                "35-44", "45-54", "55-64", "65 o mas"))
-}
-
-
-tramos = levels(info[[1]]$variables$tramos)
-
 tramos_etarios_nacional2 = list()
 for (i in 1:length(info)){
   tramos_etarios_nacional2[[i]] = lapply(tramos, function(x) 
