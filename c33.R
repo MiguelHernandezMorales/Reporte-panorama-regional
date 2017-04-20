@@ -27,7 +27,7 @@ for (i in 1:length(info)){
 }
 
 #-------------------------------------------------------------------------------
-### CUADRO 56: NUmero de empresas y ocupados de la Provincia de Ñuble según tamaño de empresas, 2016
+### CUADRO 56: NUmero de empresas y ocupados de la Provincia de Ã‘uble segÃºn tamaÃ±o de empresas, 2016
 #-------------------------------------------------------------------------------
 ###################################################################
 # Total de ocupados nuble por tamano de empresa
