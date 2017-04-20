@@ -71,4 +71,3 @@ trabajan.nuble.. = data.frame(trabajan.nuble., ee.trabajan.nuble)
 write.csv(trabajan.nuble.., "TrabajanEnNuble.csv")
 
 # FIN CUADRO 8:
-

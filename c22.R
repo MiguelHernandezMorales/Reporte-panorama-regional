@@ -66,7 +66,7 @@ for (i in 1:length(info)){
                                                          by=~I(conmutante2==1 & prov==84), info[[i]], 
                                                          svymean, multicore = TRUE, 
                                                          drop.empty.groups = FALSE, na.rm=TRUE) %>% 
-    filter( `I(conmutante2 == 1 & prov == 84)`==TRUE)
+                                                        filter( `I(conmutante2 == 1 & prov == 84)`==TRUE)
 }
 
 edad.promedio.residentes.trabaja.otra.nuble. = 
@@ -91,23 +91,23 @@ edad.promedio.residentes.trabaja.otra.nuble. =
 write.csv(edad.promedio.residentes.trabaja.otra.nuble., "edad_promedio_residentes_trabaja_otra_nuble.csv")
 
 ###################################################################
-# Edad de los trabajadores residente que trabajan en otra region a nivel nacional
+# Edad de los trabajadores que residen y trabajan en la region
 ###################################################################
 #
-edad.promedio.residentes.trabaja.otra.nacional = list()
+edad.promedio.residentes.y.trabajan = list()
 for (i in 1:length(info)){
-  edad.promedio.residentes.trabaja.otra.nacional[[i]]=svyby(~edad,
-                                                            by=~I(conmuta.nacional2==1), info[[i]], svymean,
+  edad.promedio.residentes.y.trabajan[[i]]=svyby(~edad,
+                                                            by=~I(prov_e==84 & prov==84), info[[i]], svymean,
                                                             multicore = TRUE, drop.empty.groups = FALSE, na.rm=TRUE)
 }
 
-edad.promedio.residentes.trabaja.otra.nacional. = 
-  do.call(rbind, edad.promedio.residentes.trabaja.otra.nacional)
+edad.promedio.residentes.y.trabajan. = 
+  do.call(rbind, edad.promedio.residentes.y.trabajan)
 
-edad.promedio.residentes.trabaja.otra.nacional. = 
-  edad.promedio.residentes.trabaja.otra.nacional.[, c("I(conmuta.nacional2 == 1)", "edad", "se")]
+edad.promedio.residentes.y.trabajan. = 
+  edad.promedio.residentes.y.trabajan.[, c("I(prov_e == 84 & prov == 84)", "edad", "se")]
 
-write.csv(edad.promedio.residentes.trabaja.otra.nacional., "edad_promedio_residentes_trabaja_otra_nacional.csv")
+write.csv(edad.promedio.residentes.y.trabajan., "edad_promedio_residentes_y_trabajan.csv")
 
 ###################################################################
 # Escolaridad de los trabajadores no residentes de Nuble
@@ -144,44 +144,24 @@ esc.promedio.residentes.trabaja.otra.nuble. =
 write.csv(esc.promedio.residentes.trabaja.otra.nuble., "esc_promedio_residentes_trabaja_otra_nuble.csv")
 
 ###################################################################
-# Escolaridad de los trabajadores residentes trabaja otra a nivel nacional
+# Escolaridad de los trabajadores residentes y trabajan en nuble
 ###################################################################
 #
-esc.promedio.residentes.trabaja.otra.nacional = list()
+esc.promedio.residentes.y.trabajan = list()
 for (i in 1:length(info)){
-  esc.promedio.residentes.trabaja.otra.nacional[[i]]=svyby(~esc,
-                                                           by=~I(conmuta.nacional2==1), info[[i]], 
+  esc.promedio.residentes.y.trabajan[[i]]=svyby(~esc,
+                                                           by=~I(prov_e==84 & prov==84), info[[i]], 
                                                            svymean, multicore = TRUE, 
                                                            drop.empty.groups = FALSE, na.rm=TRUE)
 }
 
-esc.promedio.residentes.trabaja.otra.nacional. = 
-  do.call(rbind, esc.promedio.residentes.trabaja.otra.nacional)
+esc.promedio.residentes.y.trabajan. = 
+  do.call(rbind, esc.promedio.residentes.y.trabajan)
 
-esc.promedio.residentes.trabaja.otra.nacional. = 
-  esc.promedio.residentes.trabaja.otra.nacional.[, c("I(conmuta.nacional2 == 1)", "esc", "se")]
+esc.promedio.residentes.y.trabajan. = 
+  esc.promedio.residentes.y.trabajan.[, c("I(prov_e == 84 & prov == 84)", "esc", "se")]
 
-write.csv(esc.promedio.residentes.trabaja.otra.nacional., "esc_promedio_residentes_trabaja_otra_nacional.csv")
-
-####################################################################################
-# Porcentaje de mujeres promedio residentes que trabaja en otra a nivel nacional. Se calcula sobre el total de residentes en otra
-####################################################################################
-#
-tasa.mujeres.residente.otra.nacional = list()
-for (i in 1:length(info)){
-  tasa.mujeres.residente.otra.nacional[[i]] = svyratio(~I(conmuta.nacional2==1 & sexo==2), 
-                                                       denominator=~conmuta.nacional2,
-                                                       info[[i]],multicore = TRUE, 
-                                                       drop.empty.groups = FALSE, na.rm=TRUE)
-}
-
-tasa.mujeres.residente.otra.nacional. = unlist(lapply(tasa.mujeres.residente.otra.nacional, '[[', 1) ) 
-
-ee.tasa.mujeres.residente.otra.nacional = unlist(lapply(tasa.mujeres.residente.otra.nacional, SE))
-
-tasa.mujeres.residente.otra.nacional.. = data.frame(tasa.mujeres.residente.otra.nacional., ee.tasa.mujeres.residente.otra.nacional)
-
-write.csv(tasa.mujeres.residente.otra.nacional.., "tasa_promedio_mujeres_residente_trabaja_otra_nacional.csv")
+write.csv(esc.promedio.residentes.y.trabajan., "esc_promedio_residentes_y_trabajan.csv")
 
 ####################################################################################
 # Porcentaje de mujeres promedio residentes que trabaja en otra a nivel de nuble. Se calcula sobre el total de residentes en otra
@@ -202,5 +182,65 @@ ee.tasa.mujeres.residente.trabaja.otra.nuble = unlist(lapply(tasa.mujeres.reside
 tasa.mujeres.residente.trabaja.otra.nuble.. = data.frame(tasa.mujeres.residente.trabaja.otra.nuble., ee.tasa.mujeres.residente.trabaja.otra.nuble)
 
 write.csv(tasa.mujeres.residente.trabaja.otra.nuble.., "tasa_promedio_mujeres_residente_trabaja_otra_nuble.csv")
+
+####################################################################################
+# Porcentaje de mujeres promedio residentes que trabaja en otra a nivel nacional. Se calcula sobre el total de residentes ytrabajan en nuble
+####################################################################################
+#
+tasa.mujeres.residente.y.trabajan = list()
+for (i in 1:length(info)){
+  tasa.mujeres.residente.y.trabajan[[i]] = svyratio(~I(prov_e==84 & prov==84 & sexo==2), 
+                                                       denominator=~I(prov_e==84 & prov==84),
+                                                       info[[i]],multicore = TRUE, 
+                                                       drop.empty.groups = FALSE, na.rm=TRUE)
+}
+
+tasa.mujeres.residente.y.trabajan. = unlist(lapply(tasa.mujeres.residente.y.trabajan, '[[', 1) ) 
+
+ee.tasa.mujeres.residente.y.trabajan = unlist(lapply(tasa.mujeres.residente.y.trabajan, SE))
+
+tasa.mujeres.residente.y.trabajan.. = data.frame(tasa.mujeres.residente.y.trabajan., ee.tasa.mujeres.residente.y.trabajan)
+
+write.csv(tasa.mujeres.residente.y.trabajan.., "tasa_promedio_mujeres_residente_y_trabajan.csv")
+
+####################################################################################
+# Porcentaje de los ocupados con educación superior completa:  residen, pero trabajan fuera
+####################################################################################
+#
+tasa.ocupados.profesional.residente.y.trabajan.otra = list()
+for (i in 1:length(info)){
+  tasa.ocupados.profesional.residente.y.trabajan.otra[[i]] = svyratio(~I(conmutante2==1 & prov==84 & educ>=7), 
+                                                    denominator=~I(conmutante2==1 & prov==84),
+                                                    info[[i]],multicore = TRUE, 
+                                                    drop.empty.groups = FALSE, na.rm=TRUE)
+}
+
+tasa.ocupados.profesional.residente.y.trabajan.otra. = unlist(lapply(tasa.ocupados.profesional.residente.y.trabajan.otra, '[[', 1) ) 
+
+ee.tasa.ocupados.profesional.residente.y.trabajan.otra = unlist(lapply(tasa.ocupados.profesional.residente.y.trabajan.otra, SE))
+
+tasa.ocupados.profesional.residente.y.trabajan.otra.. = data.frame(tasa.ocupados.profesional.residente.y.trabajan.otra., ee.tasa.ocupados.profesional.residente.y.trabajan.otra)
+
+write.csv(tasa.ocupados.profesional.residente.y.trabajan.otra.., "tasa_ocupados_profesional_residente_y_trabajan_otra.csv")
+
+####################################################################################
+# Porcentaje de los ocupados con educación superior completa:  residen y trabajan 
+####################################################################################
+#
+tasa.ocupados.profesional.residen.y.trabajan = list()
+for (i in 1:length(info)){
+  tasa.ocupados.profesional.residen.y.trabajan[[i]] = svyratio(~I(prov_e==84 & prov==84 & educ>=7), 
+                                                    denominator=~I(prov_e==84 & prov==84),
+                                                    info[[i]],multicore = TRUE, 
+                                                    drop.empty.groups = FALSE, na.rm=TRUE)
+}
+
+tasa.ocupados.profesional.residen.y.trabajan. = unlist(lapply(tasa.ocupados.profesional.residen.y.trabajan, '[[', 1) ) 
+
+ee.tasa.ocupados.profesional.residen.y.trabajan = unlist(lapply(tasa.ocupados.profesional.residen.y.trabajan, SE))
+
+tasa.ocupados.profesional.residen.y.trabajan.. = data.frame(tasa.ocupados.profesional.residen.y.trabajan., ee.tasa.ocupados.profesional.residen.y.trabajan)
+
+write.csv(tasa.ocupados.profesional.residen.y.trabajan.., "tasa_ocupados_profesional_residen_y_trabajan.csv")
 
 ### FIN CUADRO 22

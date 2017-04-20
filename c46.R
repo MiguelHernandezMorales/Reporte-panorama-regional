@@ -5,11 +5,11 @@ info2$variables$cat.ocup = recode(info2$variables$categoria_ocupacion, `1`= 1,
                                   `7`=4, .default = 0, .missing = 99)
 
 info2$variables = mutate(info2$variables, cat.ocup = ifelse(cat.ocup==3 & b8==2,3,
-                                                            ifelse(cat.ocup==3 & b8==1 & b9==1,4, 
-                                                                   ifelse(cat.ocup==3 & b8==1 & b9==2,5, 
-                                                                          ifelse(cat.ocup==1,1, 
-                                                                                 ifelse(cat.ocup==2,2, 
-                                                                                        ifelse(cat.ocup==4,6,NA)))))))
+                                      ifelse(cat.ocup==3 & b8==1 & b9==1,4, 
+                                      ifelse(cat.ocup==3 & b8==1 & b9==2,5, 
+                                      ifelse(cat.ocup==1,1, 
+                                      ifelse(cat.ocup==2,2, 
+                                      ifelse(cat.ocup==4,6,NA)))))))
 
 info2$variables$cat.ocup = factor(info2$variables$cat.ocup, 
                                   levels=c(1,2,3,4,5,6),
@@ -29,11 +29,11 @@ for (i in 1:length(info)){
 
 for (i in 1:length(info)){
   info[[i]]$variables = mutate(info[[i]]$variables, cat.ocup = ifelse(cat.ocup==3 & b8==2,3,
-                                                                      ifelse(cat.ocup==3 & b8==1 & b9==1,4, 
-                                                                             ifelse(cat.ocup==3 & b8==1 & b9==2,5, 
-                                                                                    ifelse(cat.ocup==1,1, 
-                                                                                           ifelse(cat.ocup==2,2, 
-                                                                                                  ifelse(cat.ocup==4,6,NA)))))))
+                                                  ifelse(cat.ocup==3 & b8==1 & b9==1,4, 
+                                                  ifelse(cat.ocup==3 & b8==1 & b9==2,5, 
+                                                  ifelse(cat.ocup==1,1, 
+                                                  ifelse(cat.ocup==2,2, 
+                                                  ifelse(cat.ocup==4,6,NA)))))))
 }
 
 for (i in 1:length(info)){
